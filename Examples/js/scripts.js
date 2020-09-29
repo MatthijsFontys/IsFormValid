@@ -1,18 +1,23 @@
 const form = {
     id: "myForm",
-    username: new FormField(isFilledIn(), wrapper(isPalindrome)),
-    email: new FormField(minLength(3), isEmail()),
-    files: new FileField(filesUploaded(1))
+    username: new FormFieldAsync(isFilledIn(), wrapperAsync(wait)),
+    email: new FormField(minLength(3)),
+    files: new FileField(filesUploaded(0))
 }
 
-const formHelper = new FormHelper(form);
+const formHelper = new FormHelperAsync(form, false);
 
-// formHelper.onValid = () => {
-//     formHelper.submitForm();
-// }
+formHelper.onValid = () => {
+    alert("Awesome! Your form is valid!");
+}
 
 formHelper.onInvalid = () => {
+    alert(";__( Your form is invalid!");
+}
 
+function wait(){
+    return new Promise(resolve => setTimeout(resolve, 2_000))
+    .then(() => true);
 }
 
 function isPalindrome(input){

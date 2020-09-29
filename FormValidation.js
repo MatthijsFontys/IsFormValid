@@ -107,6 +107,29 @@ function wrapper(wrappedFunction, customError){
     }
 }
 
+
+/**
+ * If async is needed it can be wrapped with this function
+ * When this is used, use FormFieldAsync and FormHelperAsync instead.
+ * @param {Function} wrappedFunction the custom function to be wrapped
+ * @param {String} customError custom error message, overrides default message. 
+ * @returns {Function} returns the custom function wrapped with default functionality 
+ */
+function wrapperAsync(wrappedFunction, customError){
+    return (input) => {
+        return wrappedFunction(input.value)
+        .then(result => {
+            if(! result){
+                alert("It's the wrapper again!");
+                addToErrors(input, 'Wrapped async function returned not valid', customError);
+            }
+        })
+        .catch(reason => {
+            addToErrors(input, `Wrapped async function threw error: ${reason}`);
+        });
+    }
+}
+
 /**
  * #### PRIVATE ####
  * Adds the error message to the formField

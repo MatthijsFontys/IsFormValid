@@ -79,13 +79,14 @@ class FormHelper{
         this.formElement.onsubmit = event => {
             if(this.preventSubmit){
                 event.preventDefault();
+            }
             if(this.validateForm()){
                 this.onValid();
                 if(this.submitIfValid){
                     this.submitForm();
                 }
             }
-            else
+            else{
                 this.onInvalid();
             }
         }

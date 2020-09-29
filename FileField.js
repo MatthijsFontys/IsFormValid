@@ -6,6 +6,10 @@ class FileField extends FormField {
 
     /** Sets the value of the binded element */
     set value(val){
-        console.log("The value of a FileField can't be set");
+        this.bindedElement.files = val;
+    }
+
+    clear(){
+        this.value = [];
     }
 }
