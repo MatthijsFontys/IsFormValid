@@ -6,6 +6,7 @@ class FormHelperAsync extends FormHelper {
      */
     setupFormSubmit(){
         this.formElement.onsubmit = event => {
+            this.onSubmit();
             if(this.preventSubmit){
                 event.preventDefault();
             }

@@ -77,6 +77,7 @@ class FormHelper{
      */
     setupFormSubmit(){
         this.formElement.onsubmit = event => {
+            this.onSubmit();
             if(this.preventSubmit){
                 event.preventDefault();
             }
@@ -112,7 +113,14 @@ class FormHelper{
      * Function that can be overriden to customize what happens on an invalid form submit
      */
     onInvalid(){
-        console.log('The form is NOT valid!');
+        console.log('The form is not valid!');
+    }
+
+    /**
+     * Function that can be overriden to customize what happens on a form submit regardles
+     */
+    onSubmit(){
+        console.log('Submitting the form');
     }
 
 

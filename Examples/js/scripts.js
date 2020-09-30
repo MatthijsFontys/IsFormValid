@@ -16,7 +16,7 @@ formHelper.onInvalid = () => {
 }
 
 function wait(){
-    return new Promise(resolve => setTimeout(resolve, 2_000))
+    return new Promise(resolve => setTimeout(resolve, 3_000))
     .then(() => true);
 }
 
