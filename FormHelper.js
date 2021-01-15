@@ -15,6 +15,7 @@ class FormHelper{
         this.preventSubmit = true;
 
         // Setup
+        this.formFields = []; // All form fields to loop through
         this.setupForm(form);
         this.setupFormFieldDatabBinding();
         this.setupFormSubmit();
@@ -32,12 +33,11 @@ class FormHelper{
             formField.otherValues = values;
             values[prop] = formField.value; 
             formField.validate();
-
+            // Don't cancel early, so all errors can be generated.
             if(formField.errors.length > 0){
                 isFormValid = false;
             }
         }
-
         return isFormValid;
     }
     
@@ -46,10 +46,9 @@ class FormHelper{
      * Empties all form values
      */
     clearForm(){
-        for(const prop in this.form){
-            const formField = this.form[prop];
-            formField.clear();
-        }
+        this.formFields.forEach(formField => {
+          formField.clear();  
+        });
     }
 
     /**
@@ -67,7 +66,8 @@ class FormHelper{
      */
     setupFormFieldDatabBinding(){
         for(const prop in this.form){
-            const formField = this.form[prop];
+            const formField = this.form[prop]; 
+            this.formFields.push(formField);
             formField.bindElement(prop);
         }
     }
@@ -121,6 +121,17 @@ class FormHelper{
      */
     onSubmit(){
         console.log('Submitting the form');
+    }
+
+    /**
+     * Get the errors of all the form fields
+     */
+    get errors(){
+        const toReturn = [];
+        this.formFields.forEach(formField => {
+            toReturn.push.apply(toReturn, formField.errors);
+        });
+        return toReturn;
     }
 
 

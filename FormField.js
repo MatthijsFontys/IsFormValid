@@ -1,6 +1,5 @@
 /**
  * Represents a field in an html form that can be validated.
- * Initiating the object this way improves readability in the Vue data object.
  */
 class FormField{
 

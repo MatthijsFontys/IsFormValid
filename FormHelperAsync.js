@@ -32,23 +32,17 @@ class FormHelperAsync extends FormHelper {
     validateForm(){
         const values = {};
         const promises = [];
+
         for(const prop in this.form){
             const formField = this.form[prop];
             formField.otherValues = values;
             values[prop] = formField.value; 
             promises.push(Promise.resolve(formField.validate()));
         }
-
-        return Promise.allSettled(promises).then(results => {
-            for(let i = 0; i < results.length; i++){
-                const result = results[i].value;
-                if(! result){
-                    return false;
-                }
-            }
-            return true;
-        });
-
+        
+        return Promise.allSettled(promises).then(
+            results => results.every(r => r.value)
+        );
     }
 
 
