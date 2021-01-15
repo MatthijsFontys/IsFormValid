@@ -39,10 +39,13 @@ class FormHelperAsync extends FormHelper {
             values[prop] = formField.value; 
             promises.push(Promise.resolve(formField.validate()));
         }
-        
-        return Promise.allSettled(promises).then(
-            results => results.every(r => r.value)
-        );
+
+        return Promise.allSettled(promises).then(results => {
+           this.formFields.forEach(formField => {
+               this.afterFieldValidation(formField);
+           }); 
+           return results.every(r => r.value);
+        });
     }
 
 

@@ -6,7 +6,7 @@ const form = {
     files: new FileField(filesUploaded(0))
 }
 
-const formHelper = new FormHelper(form, false);
+const formHelper = new FormHelper(form, {debug: true});
 
 formHelper.onValid = () => {
     alert("Awesome! Your form is valid!");

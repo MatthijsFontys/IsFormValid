@@ -1,0 +1,66 @@
+section{
+    display: flex;
+}
+
+
+input[type="text"], span{
+    box-sizing: border-box;
+    height: 28px;
+    border: 2px solid #cdcdcd;
+    border-radius: 4px;
+}
+
+input:focus + span{
+    border-color: black;
+}
+
+span{
+    width: 28px;
+    transform: translateX(-2.5px);
+    border-radius: 0 4px 4px 0;
+    border-left-width: 0;
+}
+
+input.valid + span{
+    background-color: #58D68D;
+    color: white;
+    font-weight: bolder;
+}
+
+input.valid + span::after{
+    content: "\2713";
+    position: relative;
+    left: 8px;
+}
+
+input.invalid + span{
+    background-color: #FF0033;
+    color: white;
+}
+
+input.invalid + span::after{
+    content: "X";
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+    left: 8px;
+    top: 4px;
+}
+
+input{
+    display: block;
+    margin-bottom: 8px;
+}
+
+input[type="text"]{
+    color: #555;
+    padding-left: 4px;
+    height: 28px;
+    font-size: 20px;
+    width: 25%;
+    border-radius: 4px;
+}
+
+input::placeholder{
+    text-transform: capitalize;
+    font-style: italic;
+}
