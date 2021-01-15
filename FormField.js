@@ -37,8 +37,17 @@ class FormField{
 
     /**
      * Adds two way binding with the value property of the element
+     * Remarks:
+     *  - camelCased id's will be converted to kebab-case,
+     *  to allow camel case in form property for kebab cased element
     */ 
     bindElement(elementId){
+        let element =  document.querySelector(`#${elementId}`);
+        if(element === null){
+            // Search for kebab case if no element is found through the given id
+            elementId = elementId.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+            element = document.querySelector(`#${elementId}`);
+        }
         this.bindedElement = document.querySelector(`#${elementId}`);
     }
 

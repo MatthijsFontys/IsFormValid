@@ -10,6 +10,6 @@ class FileField extends FormField {
     }
 
     clear(){
-        this.value = [];
+        this.bindedElement.value = null;
     }
 }
