@@ -27,6 +27,3 @@ function isPalindrome(input){
     }
     return output.toLowerCase() === input.toLowerCase();
 }
-
-// formHelper.onValid = () => console.log('The form is valid YAY!');
-// formHelper.onInvalid = () => console.log('Form is not valid!');

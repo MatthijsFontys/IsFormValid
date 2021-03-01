@@ -114,7 +114,13 @@ class FormHelper{
      * @param {Object} form - the form object with formfields 
      */
     protected setupForm(form: any){
-        this._formElement = document.querySelector(`#${form.id}`) as HTMLFormElement;
+        let elementId: string = `#${form.id}`;
+        this._formElement = document.querySelector(elementId);
+        if(this._formElement === null){
+            // Search for kebab case if no element is found through the given id
+            elementId = elementId.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+            this._formElement = document.querySelector(elementId);
+        }
         delete form.id;
     }
 

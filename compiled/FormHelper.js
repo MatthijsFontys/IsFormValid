@@ -53,7 +53,12 @@ class FormHelper {
         this._preventSubmit = true;
     }
     setupForm(form) {
-        this._formElement = document.querySelector(`#${form.id}`);
+        let elementId = `#${form.id}`;
+        this._formElement = document.querySelector(elementId);
+        if (this._formElement === null) {
+            elementId = elementId.replace(/([a-z0-9]|(?=[A-Z]))([A-Z])/g, '$1-$2').toLowerCase();
+            this._formElement = document.querySelector(elementId);
+        }
         delete form.id;
     }
     setupFormFieldDatabBinding() {

@@ -8,9 +8,6 @@ class FormElement {
     validate() {
         this._errors = [];
         this._validators.forEach((validator) => {
-            console.log('######################################');
-            console.log(this._validators);
-            console.log(validator);
             validator(this);
         });
         this._isValid = this.errors.length === 0;
