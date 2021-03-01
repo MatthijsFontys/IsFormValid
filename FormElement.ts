@@ -6,7 +6,7 @@ abstract class FormElement<Tvalue>{
     private _otherValues: Object;
     protected _bindedElement: HTMLInputElement;
     protected _isValid: boolean;
-    protected _errors: string[]; // TODO: Add add error method
+    protected _errors: string[]; // TODO: Add, add error method
     // Holds the values of other formfields, so they can be compared against each other
     protected _validators: (fieldValidator | fieldValidatorAsync)[]; 
 
@@ -15,11 +15,11 @@ abstract class FormElement<Tvalue>{
      * @param args methods from the FormValidation.js,
      * to show what to validate in the form.
      */
-    constructor(){
+    constructor(...args: fieldValidatorAll[]){
         this._isValid = true;
         this._errors = [];
         this._otherValues = {};
-        this._validators = Array.from(arguments);
+        this._validators = args;
     }
 
 
@@ -32,8 +32,11 @@ abstract class FormElement<Tvalue>{
      */
     validate(): Promise<boolean> | boolean {
         this._errors = [];
-        this._validators.forEach(validate => {
-            validate(this);
+        this._validators.forEach((validator) => {
+            console.log('######################################');
+            console.log(this._validators);
+            console.log(validator);
+            validator(this);
         });
         this._isValid = this.errors.length === 0;
         return this.isValid;

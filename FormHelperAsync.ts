@@ -30,9 +30,9 @@ class FormHelperAsync extends FormHelper {
      * The async variant of the method in the base class
      * @returns {Promise} promise with the result of the form validation
      */
-    validateFormAsync(): Promise<boolean>{
+    private validateFormAsync(): Promise<boolean>{
         const values: any = {};
-        const promises = [];
+        const promises: Promise<void>[] = [];
 
         for(const prop in this._form){
             const formField = this._form[prop];

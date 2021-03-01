@@ -3,8 +3,8 @@
  */
 class FormField extends FormElement<string> {
 
-    constructor(){
-        super(); // For readability
+    constructor(...args: any[]){
+        super(...args); // For readability
     }
 
     /**

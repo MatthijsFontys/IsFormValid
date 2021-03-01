@@ -17,16 +17,15 @@ class FormHelper{
      * @param {Object} form - the form to handle
      * @param {Boolean} submitIfValid - should the helper submit when valid in onsubmit
      */
-    constructor(form: Object, customOptions = {}){        
+    constructor(form: any, customOptions = {}){        
         // Toggle for submitting the form without preventing default behaviour
         this._preventSubmit = true;
-
         // Setup
         this._form = form;
         this._formFields = []; // All form fields to loop through
         this.setupOptions(customOptions);
         this._formLogger = FormLogger.initInstance(this._options.debug);
-        this.setupForm(form as formObj);
+        this.setupForm(form);
         this.setupFormFieldDatabBinding();
         this.setupFormSubmit();
 
@@ -38,7 +37,7 @@ class FormHelper{
      * Validates the form and shares necessary form values
      * @returns {Boolean} true if there are no errors in the entire form - false otherwise
      */
-    validateForm(): boolean{
+    private validateForm(): boolean{
         const values: any = {};
         let isFormValid = true;
         for(const prop in this._form){
@@ -114,7 +113,7 @@ class FormHelper{
      * Sets up the form and gets the form element from the DOM
      * @param {Object} form - the form object with formfields 
      */
-    protected setupForm(form: formObj){
+    protected setupForm(form: any){
         this._formElement = document.querySelector(`#${form.id}`) as HTMLFormElement;
         delete form.id;
     }
@@ -190,11 +189,11 @@ class FormHelper{
         formField.bindedElement.classList.remove(this._options.validClassName);
     }
 
-    private debugLog(message: any){
+    protected debugLog(message: any){
         this._formLogger.debugLog(message);
     }
 
-    private debugTable(message: any){
+    protected debugTable(message: any){
         this._formLogger.debugTable(message);
     }
 

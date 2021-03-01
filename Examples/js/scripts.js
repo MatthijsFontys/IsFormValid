@@ -1,12 +1,11 @@
 const form = {
     id: "myForm",
-    //userName: new FormFieldAsync(isFilledIn(), wrapperAsync(wait)),
-    userName: new FormFieldAsync(isFilledIn()),
-    email: new FormField(minLength(3), wrapper(isPalindrome)),
+    userName: new FormField(isFilledIn()),
+    email: new FormFieldAsync(minLength(3), wrapper(isPalindrome), wrapperAsync(wait)),
     files: new FileField(filesUploaded(0))
 }
 
-const formHelper = new FormHelper(form, {debug: true});
+const formHelper = new FormHelperAsync(form, {debug: false});
 
 formHelper.onValid = () => {
     alert("Awesome! Your form is valid!");
@@ -14,7 +13,6 @@ formHelper.onValid = () => {
 
 formHelper.onInvalid = () => {
     alert("Your form is invalid!");
-    console.log(formHelper.errors);
 }
 
 function wait(){
@@ -24,7 +22,6 @@ function wait(){
 
 function isPalindrome(input){
     let output = "";
-    console.log(input);
     for(let i=0; i < input.length; i++){
         output = input[i] + output;
     }

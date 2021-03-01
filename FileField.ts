@@ -1,7 +1,7 @@
 class FileField extends FormElement<FileList> {
     
-    constructor(){
-        super(); // For readability
+    constructor(...args: fieldValidatorAll[]){
+        super(...args); // For readability
     }
     
     /**

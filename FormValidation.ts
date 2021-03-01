@@ -5,6 +5,7 @@
 
 type fieldValidator = (input: FormElement<any>) => void;
 type fieldValidatorAsync = (input: FormElement<any>) => Promise<void>;
+type fieldValidatorAll = fieldValidator | fieldValidatorAsync;
 type wrappedValidator = (inputValue: any) => boolean;
 type wrappedValidatorAsync = (inputValue: any) => Promise<boolean>;
 
