@@ -9,15 +9,15 @@ class FormFieldAsync extends FormField {
      * The async variant of the method in the base class
      * @returns {Promise} promise with the validation result
      */
-    validate(){
-        const promises = [];
-        this.errors = [];
-        this.validators.forEach(validate => {
+    validate(): Promise<boolean> | boolean{
+        const promises: Promise<boolean>[] = [];
+        this._errors = [];
+        this._validators.forEach(validate => {
             promises.push(Promise.resolve(validate(this)));
         });
         
         return Promise.allSettled(promises).then(() => {
-            this.isValid = this.errors.length === 0;
+            this._isValid = this.errors.length === 0;
             return this.isValid;
         });
     }

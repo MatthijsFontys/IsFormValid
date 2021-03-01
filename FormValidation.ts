@@ -3,13 +3,17 @@
     Methods that are needed for the form should be imported
 */
 
+type fieldValidator = (input: FormElement<any>) => void;
+type fieldValidatorAsync = (input: FormElement<any>) => Promise<void>;
+type wrappedValidator = (inputValue: any) => boolean;
+type wrappedValidatorAsync = (inputValue: any) => Promise<boolean>;
 
 /**
  * Adds an error if the value is empty
  * @param {String} customError custom error message, overrides default message
  */
-function isFilledIn(customError){
-    return (input) => {
+function isFilledIn(customError?: string): fieldValidator {
+    return (input: FormField) => {
         const value = input.value;
         if(value == null || value == ""){
             addToErrors(input, "This field is required", customError);
@@ -22,8 +26,8 @@ function isFilledIn(customError){
  * @param {String} customError custom error message, overrides default message
  * @returns {Function} returns a isEmail validation function
  */
-function isEmail(customError){
-    return (input) => {
+function isEmail(customError?: string): fieldValidator {
+    return (input: FormField) => {
         const value = input.value;
         const regex = /\S+@\S+\.\S+/;
 
@@ -39,10 +43,10 @@ function isEmail(customError){
  * @param {String} customError custom error message, overrides default 
  * @returns {Function} returns a isSameAs validation function
  */
-function isSameAs(sameAs, customError){
-    return (input) => {
+function isSameAs(sameAs: string, customError?: string): fieldValidator {
+    return (input: FormField) => {
         const value = input.value;
-        const valueOfOther = input.otherValues[sameAs];
+        const valueOfOther = (input.otherValues as any)[sameAs];
         if(value !== valueOfOther){
             addToErrors(input, `${value} is not the same is ${sameAs}`, customError)
         }
@@ -55,8 +59,8 @@ function isSameAs(sameAs, customError){
  * @param {String} customError custom error message, overrides default message
  * @returns {Function} returns a minLength validation function
  */
-function minLength(minLength, customError){
-    return (input) => {
+function minLength(minLength: number, customError?: string): fieldValidator {
+    return (input: FormField) => {
         const value = input.value;
         if(value.length < minLength){
             addToErrors(input, `Requires a minimum length of ${length}`, customError);
@@ -70,7 +74,7 @@ function minLength(minLength, customError){
  * @param {String} customError custom error message, overrides default message
  * @returns {Function} returns a maxLength validation function
  */
-function maxLength(maxLength, customError){
+function maxLength(maxLength: number, customError?: string): fieldValidator {
     return (input) => {
         const value = input.value;
         if(value.length > maxLength){
@@ -85,7 +89,7 @@ function maxLength(maxLength, customError){
  * @param {String} customError custom error message, overrides default message
  * @returns {Function} returns a maxLength validation function
  */
-function filesUploaded(amount, customError){
+function filesUploaded(amount: number, customError?: string): fieldValidator {
     return (input) => {
         if(input.value.length !== amount){
             addToErrors(input, `There amount of files uploaded is not ${amount}`, customError);
@@ -99,7 +103,7 @@ function filesUploaded(amount, customError){
  * @param {String} customError custom error message, overrides default message. 
  * @returns {Function} returns the custom function wrapped with default functionality 
  */
-function wrapper(wrappedFunction, customError){
+function wrapper(wrappedFunction: wrappedValidator, customError?: string): fieldValidator{
     return (input) => {
         if(! wrappedFunction(input.value)){
             addToErrors(input, 'Wrapped function returned not valid', customError);
@@ -115,12 +119,11 @@ function wrapper(wrappedFunction, customError){
  * @param {String} customError custom error message, overrides default message. 
  * @returns {Function} returns the custom function wrapped with default functionality 
  */
-function wrapperAsync(wrappedFunction, customError){
-    return (input) => {
+function wrapperAsync(wrappedFunction: wrappedValidatorAsync, customError?: string): fieldValidatorAsync {
+    return (input: FormField) => {
         return wrappedFunction(input.value)
         .then(result => {
             if(! result){
-                alert("It's the wrapper again!");
                 addToErrors(input, 'Wrapped async function returned not valid', customError);
             }
         })
@@ -137,7 +140,7 @@ function wrapperAsync(wrappedFunction, customError){
  * @param {String} errorMsg the default error message
  * @param {String} customError the custom error message
  */
-function addToErrors(input, errorMsg, customError){
+function addToErrors(input: FormField, errorMsg: string, customError?: string): void{
         const error = customError || errorMsg;
         input.errors.push(error);
 }

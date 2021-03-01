@@ -1,3 +1,4 @@
+
 class FormHelperAsync extends FormHelper {
     
     /**
@@ -5,15 +6,15 @@ class FormHelperAsync extends FormHelper {
      * Waits async for the form validation to be finished
      */
     setupFormSubmit(){
-        this.formElement.onsubmit = event => {
+        this._formElement.onsubmit = event => {
             this.onSubmit();
-            if(this.preventSubmit){
+            if(this._preventSubmit){
                 event.preventDefault();
             }
-            this.validateForm().then(isValid => {
+            this.validateFormAsync().then(isValid => {
                 if(isValid){
                     this.onValid();
-                    if(this.submitIfValid){
+                    if(this._options.submitIfValid){
                         this.submitForm();
                     }
                 }
@@ -29,22 +30,22 @@ class FormHelperAsync extends FormHelper {
      * The async variant of the method in the base class
      * @returns {Promise} promise with the result of the form validation
      */
-    validateForm(){
-        const values = {};
+    validateFormAsync(): Promise<boolean>{
+        const values: any = {};
         const promises = [];
 
-        for(const prop in this.form){
-            const formField = this.form[prop];
+        for(const prop in this._form){
+            const formField = this._form[prop];
             formField.otherValues = values;
             values[prop] = formField.value; 
             promises.push(Promise.resolve(formField.validate()));
         }
 
         return Promise.allSettled(promises).then(results => {
-           this.formFields.forEach(formField => {
+           this._formFields.forEach(formField => {
                this.afterFieldValidation(formField);
-           }); 
-           return results.every(r => r.value);
+           });
+           return results.every(r => r.status === 'fulfilled' && r.value);
         });
     }
 
